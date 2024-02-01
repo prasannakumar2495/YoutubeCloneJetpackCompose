@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Youtube Clone</string>
+    <string name="this_is_user_s_profile_image">This is user\'s profile image.</string>
+    <string name="click_to_search_anything">Click to search anything.</string>
+    <string name="click_to_view_notifications">Click to view notifications.</string>
+    <string name="click_to_screen_cast">Click to screen cast.</string>
+    <string name="youtube">YouTube</string>
+</resources>
