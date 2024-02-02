@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,7 +29,7 @@ import com.pk.youtubeclone.navigations.NavigationRoutes
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun ReelsScreen(navController: NavHostController) {
+fun ReelsScreen(navController: NavHostController, displayPostBottomSheet: MutableState<Boolean>) {
 	val selectedNavigation = remember {
 		mutableIntStateOf(1)
 	}

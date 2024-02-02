@@ -345,7 +345,7 @@ fun VideoPlayer(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomBottomDrawer(
+fun ProfileBottomDrawer(
 	listOfProfileItems: List<List<ProfileDetails>>,
 	displayBottomSheet: MutableState<Boolean>,
 	bottomSheetState: SheetState,
