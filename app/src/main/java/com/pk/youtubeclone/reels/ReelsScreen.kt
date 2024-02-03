@@ -26,6 +26,7 @@ import com.pk.youtubeclone.commonComponents.CustomBottomNavigationSheet
 import com.pk.youtubeclone.modelclasses.dummyNavigationItems
 import com.pk.youtubeclone.modelclasses.dummyReelsDetails
 import com.pk.youtubeclone.navigations.NavigationRoutes
+import com.pk.youtubeclone.posts.PostScreen
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -85,7 +86,7 @@ fun ReelsScreen(navController: NavHostController, displayPostBottomSheet: Mutabl
 				when (name) {
 					NavigationRoutes.Home.name -> navController.navigate(NavigationRoutes.Home.name)
 					NavigationRoutes.Reels.name -> navController.navigate(NavigationRoutes.Reels.name)
-					NavigationRoutes.Post.name -> navController.navigate(NavigationRoutes.Post.name)
+					NavigationRoutes.Post.name -> displayPostBottomSheet.value = true
 					NavigationRoutes.Subscription.name -> navController.navigate(
 						NavigationRoutes.Subscription.name
 					)
@@ -97,5 +98,10 @@ fun ReelsScreen(navController: NavHostController, displayPostBottomSheet: Mutabl
 		VerticalPager(state = pagerState) {
 			CustomReelComposable(paddingValues, pagerState, dummyReelsDetails[it])
 		}
+		if (displayPostBottomSheet.value)
+			PostScreen(
+				navController = navController,
+				displayPostBottomSheet = displayPostBottomSheet
+			)
 	}
 }

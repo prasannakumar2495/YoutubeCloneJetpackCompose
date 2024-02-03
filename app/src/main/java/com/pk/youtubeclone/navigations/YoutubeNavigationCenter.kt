@@ -10,7 +10,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.pk.youtubeclone.home.HomeScreen
 import com.pk.youtubeclone.library.LibraryScreen
-import com.pk.youtubeclone.posts.PostScreen
 import com.pk.youtubeclone.reels.ReelsScreen
 import com.pk.youtubeclone.splash.SplashScreen
 import com.pk.youtubeclone.subscriptions.SubscriptionScreen
@@ -37,12 +36,6 @@ fun YoutubeNavigationCenter(
 		}
 		composable(route = NavigationRoutes.Reels.name) {
 			ReelsScreen(
-				navController = navController,
-				displayPostBottomSheet = displayPostBottomSheet
-			)
-		}
-		composable(route = NavigationRoutes.Post.name) {
-			PostScreen(
 				navController = navController,
 				displayPostBottomSheet = displayPostBottomSheet
 			)

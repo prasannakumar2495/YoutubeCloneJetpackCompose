@@ -33,6 +33,7 @@ import com.pk.youtubeclone.modelclasses.dummyCategories
 import com.pk.youtubeclone.modelclasses.dummyNavigationItems
 import com.pk.youtubeclone.modelclasses.dummyVideoDetails
 import com.pk.youtubeclone.navigations.NavigationRoutes
+import com.pk.youtubeclone.posts.PostScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -81,7 +82,6 @@ fun HomeScreen(
 					NavigationRoutes.Reels.name -> navController.navigate(NavigationRoutes.Reels.name)
 					NavigationRoutes.Post.name -> {
 						displayPostBottomSheet.value = true
-						navController.navigate(NavigationRoutes.Post.name)
 					}
 					
 					NavigationRoutes.Subscription.name -> navController.navigate(
@@ -106,6 +106,11 @@ fun HomeScreen(
 						scope
 					)
 			}
+			if (displayPostBottomSheet.value)
+				PostScreen(
+					navController = navController,
+					displayPostBottomSheet = displayPostBottomSheet
+				)
 		}
 	}
 }
