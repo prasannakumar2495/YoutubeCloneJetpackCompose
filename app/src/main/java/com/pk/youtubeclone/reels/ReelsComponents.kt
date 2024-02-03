@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
-import com.pk.youtubeclone.commonComponents.AnalyticsButtons
+import com.pk.youtubeclone.commonComponents.AnalyticsButtonsInReels
 import com.pk.youtubeclone.commonComponents.CircularImageComposable
 import com.pk.youtubeclone.commonComponents.CustomBoldText
 import com.pk.youtubeclone.commonComponents.CustomTextRegular
@@ -140,32 +140,32 @@ fun CustomReelComposable(
 					.wrapContentSize(),
 				horizontalAlignment = Alignment.CenterHorizontally
 			) {
-				AnalyticsButtons(
+				AnalyticsButtonsInReels(
 					icon = Icons.Filled.ThumbUp,
 					text = reelsDetails.numberOfLikes.toString(),
 					textSize = 12.sp,
 					textColor = Color.White
 				) {}
-				AnalyticsButtons(
+				AnalyticsButtonsInReels(
 					icon = Icons.Filled.ThumbUp,
 					text = "Dislike",
 					textSize = 12.sp,
 					textColor = Color.White
 				) {}
-				AnalyticsButtons(
+				AnalyticsButtonsInReels(
 					icon = Icons.Filled.Email,
 					text = reelsDetails.numberOfComments.toString(),
 					textSize = 12.sp,
 					textColor = Color.White
 				) {}
 				
-				AnalyticsButtons(
+				AnalyticsButtonsInReels(
 					icon = Icons.Filled.Send,
 					text = "Share",
 					textSize = 12.sp,
 					textColor = Color.White
 				) {}
-				AnalyticsButtons(
+				AnalyticsButtonsInReels(
 					icon = Icons.Filled.PlayArrow,
 					text = "Remix",
 					textSize = 12.sp,

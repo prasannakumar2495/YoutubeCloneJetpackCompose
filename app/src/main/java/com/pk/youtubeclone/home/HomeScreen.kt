@@ -133,16 +133,20 @@ fun HomeScreenCategoriesList() {
 }
 
 @Composable
-fun HomeScreenVideoList(listOfVideo: List<VideoDetails>, context: Context) {
+fun HomeScreenVideoList(
+	listOfVideo: List<VideoDetails>,
+	context: Context,
+) {
 	val listOfVideoData = remember {
 		listOfVideo
 	}
 	LazyColumn(modifier = Modifier.padding(top = 4.dp)) {
 		items(count = listOfVideoData.size, key = { listOfVideoData[it].id }) {
-			VideoAndTitleComposable(videoDetails = listOfVideoData[it], clickOnChannelImage = {
-				Toast.makeText(context, "Click on video $it", Toast.LENGTH_SHORT)
-					.show()
-			})
+			VideoAndTitleComposable(
+				videoDetails = listOfVideoData[it], clickOnChannelImage = {
+					Toast.makeText(context, "Click on video $it", Toast.LENGTH_SHORT)
+						.show()
+				})
 		}
 	}
 }

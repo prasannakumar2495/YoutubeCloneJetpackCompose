@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,7 +40,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,13 +52,19 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
 import coil.compose.rememberAsyncImagePainter
 import com.pk.youtubeclone.BulletPoint
 import com.pk.youtubeclone.EMPTY
@@ -156,7 +165,10 @@ fun VideoAndTitleComposable(
 	videoDetails: VideoDetails = dummyVideoDetails[0],
 ) {
 	Column(verticalArrangement = Arrangement.Center) {
-		VideoPlayer(onVideoClick = {}, onAudioButtonClick = {}, onSubtitleButtonClick = {})
+		VideoPlayerWithOptions(
+			onVideoClick = {},
+			onSubtitleButtonClick = {}
+		)
 		Row(
 			verticalAlignment = Alignment.CenterVertically,
 			modifier = Modifier.fillMaxWidth()
@@ -284,43 +296,24 @@ fun CustomBottomNavigationSheet(
 }
 
 @Composable
-fun VideoPlayer(
+fun VideoPlayerWithOptions(
 	onVideoClick: () -> Unit,
-	onAudioButtonClick: () -> Unit,
 	onSubtitleButtonClick: () -> Unit,
 ) {
-	val context = LocalContext.current
-	val exoPlayer = remember {
-		ExoPlayer.Builder(context).build().apply {
-			prepare()
-		}
-	}
 	ConstraintLayout {
 		val (muteUnMuteIcon, subtitleIcon, videoPlayer) = createRefs()
-		//TODO => To work with YouTube video, uncomment the below code.
-		/**
-		 * AndroidView(factory = {
-		 * 			PlayerView(it).apply {
-		 * 				player = exoPlayer.apply {
-		 * 					//setMediaItem(MediaItem.fromUri("https://www.youtube.com/watch?v=E_8LHkn4g-Q"))
-		 * 				}
-		 * 			}
-		 * 		}, modifier = Modifier
-		 * 			.fillMaxWidth()
-		 * 			.height(200.dp)
-		 * 			.padding(8.dp)
-		 * 			.constrainAs(videoPlayer) { top.linkTo(parent.top) }
-		 * 			.clickable { onVideoClick() })
-		 */
-		Image(painter = painterResource(id = R.drawable.youtube), contentDescription = null,
+		VideoPlayer(
 			modifier = Modifier
-				.fillMaxWidth()
 				.height(200.dp)
 				.padding(8.dp)
 				.constrainAs(videoPlayer) { top.linkTo(parent.top) }
-				.clickable { onVideoClick() })
+				.clickable { onVideoClick() },
+		)
+		
 		IconButton(
-			onClick = { onAudioButtonClick() },
+			onClick = {
+				//TODO => Need to play with audio
+			},
 			modifier = Modifier.constrainAs(muteUnMuteIcon) { end.linkTo(videoPlayer.end) }) {
 			Icon(
 				painter = painterResource(id = R.drawable.ic_volume_off),
@@ -457,7 +450,7 @@ fun ProfileBottomDrawer(
 }
 
 @Composable
-fun AnalyticsButtons(
+fun AnalyticsButtonsInReels(
 	icon: ImageVector,
 	text: String,
 	textSize: TextUnit,
@@ -477,4 +470,62 @@ fun AnalyticsButtons(
 		)
 		CustomTextRegular(text = text, textSize = textSize, textColor = textColor)
 	}
+}
+
+@Composable
+fun VideoPlayer(
+	modifier: Modifier,
+) {
+	val lifeCycle = remember {
+		mutableStateOf(Lifecycle.Event.ON_CREATE)
+	}
+	val context = LocalContext.current
+	val mediaItem = MediaItem.fromUri("android.resource://${context.packageName}/${R.raw.iloveit}")
+	val exoPlayer = remember {
+		ExoPlayer.Builder(context).build().apply {
+			setMediaItem(mediaItem)
+			prepare()
+		}
+	}
+	val lifeCycleOwner = LocalLifecycleOwner.current
+	
+	DisposableEffect(key1 = lifeCycleOwner) {
+		val observer = LifecycleEventObserver { _, event ->
+			lifeCycle.value = event
+		}
+		lifeCycleOwner.lifecycle.addObserver(observer)
+		
+		onDispose {
+			exoPlayer.release()
+			lifeCycleOwner.lifecycle.removeObserver(observer)
+		}
+	}
+	
+	AndroidView(
+		modifier = modifier
+			.fillMaxWidth()
+			.aspectRatio(18f / 9f),
+		factory = {
+			PlayerView(context).apply {
+				player = exoPlayer.apply {
+					//If you wanna mute the audio, the pass the value as 0f
+					volume = 1f
+				}
+			}
+		},
+		update = {
+			when (lifeCycle.value) {
+				Lifecycle.Event.ON_PAUSE -> {
+					it.onPause()
+					it.player?.pause()
+				}
+				
+				Lifecycle.Event.ON_RESUME -> {
+					it.onResume()
+				}
+				
+				else -> Unit
+			}
+		}
+	)
 }

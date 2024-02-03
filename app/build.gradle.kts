@@ -76,6 +76,7 @@ dependencies {
 	//ExoPlayer
 	implementation("androidx.media3:media3-exoplayer:1.2.1")
 	implementation("androidx.media3:media3-ui:1.2.1")
+	implementation("androidx.media3:media3-exoplayer-hls:1.2.1") //This is specifically for live streaming
 	//Hilt
 	implementation("com.google.dagger:hilt-android:2.48")
 	kapt("com.google.dagger:hilt-android-compiler:2.44")
