@@ -68,12 +68,14 @@ import androidx.media3.ui.PlayerView
 import coil.compose.rememberAsyncImagePainter
 import com.pk.youtubeclone.BulletPoint
 import com.pk.youtubeclone.EMPTY
+import com.pk.youtubeclone.LandscapeModeAspectRatio
 import com.pk.youtubeclone.R
 import com.pk.youtubeclone.SampleImageURL1
 import com.pk.youtubeclone.UserEmailID
 import com.pk.youtubeclone.UserFullName
 import com.pk.youtubeclone.modelclasses.BottomNavigationItems
 import com.pk.youtubeclone.modelclasses.ProfileDetails
+import com.pk.youtubeclone.modelclasses.ReelsDetails
 import com.pk.youtubeclone.modelclasses.VideoDetails
 import com.pk.youtubeclone.modelclasses.dummyVideoDetails
 import com.pk.youtubeclone.navigations.NavigationRoutes
@@ -165,9 +167,10 @@ fun VideoAndTitleComposable(
 	videoDetails: VideoDetails = dummyVideoDetails[0],
 ) {
 	Column(verticalArrangement = Arrangement.Center) {
-		VideoPlayerWithOptions(
+		CompleteVideoPlayer(
 			onVideoClick = {},
-			onSubtitleButtonClick = {}
+			onSubtitleButtonClick = {},
+			videoDetails
 		)
 		Row(
 			verticalAlignment = Alignment.CenterVertically,
@@ -296,9 +299,10 @@ fun CustomBottomNavigationSheet(
 }
 
 @Composable
-fun VideoPlayerWithOptions(
+fun CompleteVideoPlayer(
 	onVideoClick: () -> Unit,
 	onSubtitleButtonClick: () -> Unit,
+	videoDetails: VideoDetails,
 ) {
 	ConstraintLayout {
 		val (muteUnMuteIcon, subtitleIcon, videoPlayer) = createRefs()
@@ -308,6 +312,7 @@ fun VideoPlayerWithOptions(
 				.padding(8.dp)
 				.constrainAs(videoPlayer) { top.linkTo(parent.top) }
 				.clickable { onVideoClick() },
+			videoDetails = videoDetails
 		)
 		
 		IconButton(
@@ -472,18 +477,46 @@ fun AnalyticsButtonsInReels(
 	}
 }
 
+/**
+ * This composable is used to play videos without controls on it.
+ * The user cannot pause, resume and fast-forward the videos.
+ *
+ * @param shouldHaveControls => Only when the user provides the value as true
+ * then the controls will appear.
+ * @param aspectRatio => The ratio of the video, constant values for Landscape and Vertical
+ * mode are already written in the constants file.
+ * @param autoPlayVideo => This boolean value will determine if the video should play
+ * automatically or not
+ * @param isVideoMute => To make the video mute.
+ */
 @Composable
 fun VideoPlayer(
 	modifier: Modifier,
+	videoDetails: VideoDetails? = null,
+	reelsDetails: ReelsDetails? = null,
+	shouldHaveControls: Boolean = false,
+	aspectRatio: Float = LandscapeModeAspectRatio,
+	autoPlayVideo: Boolean = true,
+	isVideoMute: Boolean = true,
 ) {
 	val lifeCycle = remember {
 		mutableStateOf(Lifecycle.Event.ON_CREATE)
 	}
 	val context = LocalContext.current
-	val mediaItem = MediaItem.fromUri("android.resource://${context.packageName}/${R.raw.iloveit}")
+	val mediaItem = videoDetails?.videoUri?.let {
+		MediaItem.fromUri("android.resource://${context.packageName}/$it")
+	} ?: run {
+		reelsDetails?.reelUri?.let {
+			MediaItem.fromUri("android.resource://${context.packageName}/$it")
+		}
+	}
 	val exoPlayer = remember {
 		ExoPlayer.Builder(context).build().apply {
-			setMediaItem(mediaItem)
+			if (mediaItem != null) {
+				setMediaItem(mediaItem)
+			}
+			//This will auto play the video
+			playWhenReady = autoPlayVideo
 			prepare()
 		}
 	}
@@ -504,12 +537,15 @@ fun VideoPlayer(
 	AndroidView(
 		modifier = modifier
 			.fillMaxWidth()
-			.aspectRatio(18f / 9f),
+			.aspectRatio(aspectRatio),
 		factory = {
 			PlayerView(context).apply {
 				player = exoPlayer.apply {
-					//If you wanna mute the audio, the pass the value as 0f
-					volume = 1f
+					volume = if (isVideoMute)
+						0f
+					else 1f
+					//This will hide the controls
+					useController = shouldHaveControls
 				}
 			}
 		},

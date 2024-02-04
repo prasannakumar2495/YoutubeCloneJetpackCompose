@@ -30,10 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
+import com.pk.youtubeclone.VerticalModeAspectRatio
 import com.pk.youtubeclone.commonComponents.AnalyticsButtonsInReels
 import com.pk.youtubeclone.commonComponents.CircularImageComposable
 import com.pk.youtubeclone.commonComponents.CustomBoldText
 import com.pk.youtubeclone.commonComponents.CustomTextRegular
+import com.pk.youtubeclone.commonComponents.VideoPlayer
 import com.pk.youtubeclone.modelclasses.ReelsDetails
 import com.pk.youtubeclone.ui.theme.almostBlack
 
@@ -54,11 +56,11 @@ fun CustomReelComposable(
 			.clickable {},
 		contentAlignment = Alignment.BottomStart
 	) {
-		AsyncImage(
-			model = reelsDetails.channelImage,
-			contentDescription = reelsDetails.reelDescription,
+		VideoPlayer(
 			modifier = Modifier.fillMaxSize(),
-			contentScale = ContentScale.FillBounds
+			reelsDetails = reelsDetails,
+			aspectRatio = VerticalModeAspectRatio,
+			isVideoMute = false
 		)
 		/**
 		 * Below we have the code to display the various options on the video.

@@ -1,15 +1,15 @@
 package com.pk.youtubeclone.modelclasses
 
-import android.net.Uri
 import androidx.compose.runtime.Stable
 import androidx.media3.common.MediaItem
+import com.pk.youtubeclone.R
 import com.pk.youtubeclone.SampleImageURL1
 
 @Stable
 data class VideoDetails(
 	val id: Int,
 	val channelImageUrl: String,
-	val videoUri: Uri?,
+	val videoUri: Int?,
 	val videoTitle: String,
 	val channelName: String,
 	val numberOfViews: Int,
@@ -19,8 +19,14 @@ data class VideoDetails(
 
 val dummyVideoDetails = listOf(
 	VideoDetails(
-		1, SampleImageURL1, null, "This is the current video",
-		"This is PK", 100000, "12", null
+		1,
+		SampleImageURL1,
+		R.raw.iloveit,
+		"This is the current video",
+		"This is PK",
+		100000,
+		"12",
+		null
 	),
 	VideoDetails(
 		2, SampleImageURL1, null, "This is the current video 2",

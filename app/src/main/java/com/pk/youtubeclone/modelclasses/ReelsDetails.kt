@@ -1,5 +1,6 @@
 package com.pk.youtubeclone.modelclasses
 
+import com.pk.youtubeclone.R
 import com.pk.youtubeclone.SampleDescription
 import com.pk.youtubeclone.SampleImageURL1
 import com.pk.youtubeclone.SampleImageURL2
@@ -15,6 +16,7 @@ data class ReelsDetails(
 	val reelSong: String? = null,
 	val numberOfLikes: Long = 0,
 	val numberOfComments: Long = 0,
+	val reelUri: Int? = null,
 )
 
 val dummyReelsDetails = listOf(
@@ -23,14 +25,16 @@ val dummyReelsDetails = listOf(
 		channelImage = SampleImageURL1, isSubscribed = true,
 		reelDescription = SampleDescription,
 		reelSong = SampleSong, numberOfLikes = 102,
-		numberOfComments = 12
+		numberOfComments = 12,
+		reelUri = R.raw.vertical_video
 	),
 	ReelsDetails(
 		id = 2, channelName = "Channel 2",
 		channelImage = SampleImageURL2, isSubscribed = false,
 		reelDescription = SampleDescription,
 		reelSong = SampleSong, numberOfLikes = 102,
-		numberOfComments = 12
+		numberOfComments = 12,
+		reelUri = R.raw.iloveit
 	),
 	ReelsDetails(
 		id = 3, channelName = "Channel 3",

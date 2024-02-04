@@ -14,3 +14,5 @@ const val UserEmailID = "prasannakumar2461995@gmailcom"
 const val UserChannelName = "@PrasannaKumarAnisetti"
 const val SampleDescription = "This is a sample description."
 const val SampleSong = "This is a song"
+const val LandscapeModeAspectRatio = 18f / 9f
+const val VerticalModeAspectRatio = 9f / 16f
