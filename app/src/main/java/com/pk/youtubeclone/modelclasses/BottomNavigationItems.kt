@@ -2,13 +2,13 @@ package com.pk.youtubeclone.modelclasses
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.runtime.Stable
@@ -50,8 +50,8 @@ val dummyNavigationItems = listOf(
 	),
 	BottomNavigationItems(
 		4,
-		NavigationRoutes.Library.name,
-		Icons.Outlined.Build,
-		Icons.Filled.Build
+		NavigationRoutes.Profile.name,
+		Icons.Outlined.Person,
+		Icons.Filled.Person
 	)
 )

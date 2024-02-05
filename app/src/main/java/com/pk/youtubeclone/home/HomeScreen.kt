@@ -88,7 +88,7 @@ fun HomeScreen(
 						NavigationRoutes.Subscription.name
 					)
 					
-					NavigationRoutes.Library.name -> navController.navigate(NavigationRoutes.Library.name)
+					NavigationRoutes.Profile.name -> navController.navigate(NavigationRoutes.Profile.name)
 				}
 			}
 		}) {

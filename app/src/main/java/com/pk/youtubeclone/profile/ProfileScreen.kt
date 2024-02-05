@@ -1,4 +1,4 @@
-package com.pk.youtubeclone.library
+package com.pk.youtubeclone.profile
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -9,6 +9,6 @@ import com.pk.youtubeclone.commonComponents.CustomBoldText
 import com.pk.youtubeclone.navigations.NavigationRoutes
 
 @Composable
-fun LibraryScreen(navController: NavHostController, displayPostBottomSheet: MutableState<Boolean>) {
-	CustomBoldText(text = NavigationRoutes.Library.name, textSize = 32.sp, textColor = Color.Black)
+fun ProfileScreen(navController: NavHostController, displayPostBottomSheet: MutableState<Boolean>) {
+	CustomBoldText(text = NavigationRoutes.Profile.name, textSize = 32.sp, textColor = Color.Black)
 }

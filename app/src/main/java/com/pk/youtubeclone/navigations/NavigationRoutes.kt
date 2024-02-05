@@ -6,5 +6,5 @@ enum class NavigationRoutes {
 	Reels,
 	Post,
 	Subscription,
-	Library
+	Profile
 }
