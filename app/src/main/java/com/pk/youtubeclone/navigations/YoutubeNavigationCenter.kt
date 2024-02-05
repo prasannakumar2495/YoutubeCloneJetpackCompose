@@ -43,13 +43,15 @@ fun YoutubeNavigationCenter(
 		composable(route = NavigationRoutes.Subscription.name) {
 			SubscriptionScreen(
 				navController = navController,
-				displayPostBottomSheet = displayPostBottomSheet
+				displayPostBottomSheet = displayPostBottomSheet,
+				selectedNavigation, displayProfileBottomSheet, bottomSheetState
 			)
 		}
 		composable(route = NavigationRoutes.Profile.name) {
 			ProfileScreen(
 				navController = navController,
-				displayPostBottomSheet = displayPostBottomSheet
+				displayPostBottomSheet = displayPostBottomSheet,
+				selectedNavigation, displayProfileBottomSheet, bottomSheetState
 			)
 		}
 	}

@@ -16,3 +16,4 @@ const val SampleDescription = "This is a sample description."
 const val SampleSong = "This is a song"
 const val LandscapeModeAspectRatio = 18f / 9f
 const val VerticalModeAspectRatio = 9f / 16f
+val sampleImages = listOf(SampleImageURL1, SampleImageURL2, SampleImageURL3)

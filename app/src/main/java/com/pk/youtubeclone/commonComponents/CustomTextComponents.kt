@@ -50,6 +50,8 @@ fun CustomTextThin(
 		text = text,
 		color = textColor,
 		style = TextStyle(fontWeight = FontWeight.Thin, fontSize = textSize),
-		modifier = modifier
+		modifier = modifier,
+		maxLines = 1,
+		overflow = TextOverflow.Ellipsis
 	)
 }

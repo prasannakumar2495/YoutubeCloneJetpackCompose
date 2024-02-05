@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -46,11 +45,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
@@ -65,7 +62,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
-import coil.compose.rememberAsyncImagePainter
 import com.pk.youtubeclone.BulletPoint
 import com.pk.youtubeclone.EMPTY
 import com.pk.youtubeclone.LandscapeModeAspectRatio
@@ -83,15 +79,6 @@ import com.pk.youtubeclone.ui.theme.almostBlack
 import com.pk.youtubeclone.ui.theme.customBlue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
-@Composable
-fun AppLogo(modifier: Modifier) {
-	Image(
-		painter = painterResource(id = R.drawable.youtube),
-		contentDescription = null,
-		modifier = modifier
-	)
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -209,29 +196,6 @@ fun VideoAndTitleComposable(
 			}
 		}
 	}
-}
-
-@Composable
-fun CircularImageComposable(
-	imageUrl: String,
-	modifier: Modifier = Modifier,
-	clickOnImage: () -> Unit = {},
-) {
-	Image(
-		painter = rememberAsyncImagePainter(
-			model = imageUrl, placeholder = painterResource(
-				id = R.drawable.ic_launcher_background
-			)
-		),
-		contentDescription = EMPTY,
-		modifier = modifier
-			.height(50.dp)
-			.width(50.dp)
-			.clickable(onClick = clickOnImage)
-			.padding(8.dp)
-			.clip(shape = CircleShape),
-		contentScale = ContentScale.FillBounds
-	)
 }
 
 @Composable
@@ -564,4 +528,20 @@ fun VideoPlayer(
 			}
 		}
 	)
+}
+
+/**
+ * This composable is used for displaying the channel image and
+ * the name of the channel vertically
+ */
+@Composable
+fun CustomChannelImageNameComposable(channelName: String, channelImage: String) {
+	Column(modifier = Modifier.width(50.dp)) {
+		CircularImageComposable(imageUrl = channelImage)
+		CustomTextThin(
+			text = channelName,
+			textSize = 12.sp,
+			textColor = Color.White,
+		)
+	}
 }
