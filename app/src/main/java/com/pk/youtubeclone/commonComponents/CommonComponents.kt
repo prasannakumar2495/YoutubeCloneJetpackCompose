@@ -150,14 +150,15 @@ fun CommonTopAppBar(
 
 @Composable
 fun VideoAndTitleComposable(
+	modifier: Modifier = Modifier,
 	clickOnChannelImage: () -> Unit = {},
 	videoDetails: VideoDetails = dummyVideoDetails[0],
 ) {
-	Column(verticalArrangement = Arrangement.Center) {
-		CompleteVideoPlayer(
+	Column(verticalArrangement = Arrangement.Center, modifier = modifier) {
+		OnlyVideoPlayer(
 			onVideoClick = {},
 			onSubtitleButtonClick = {},
-			videoDetails
+			videoDetails = videoDetails
 		)
 		Row(
 			verticalAlignment = Alignment.CenterVertically,
@@ -263,7 +264,8 @@ fun CustomBottomNavigationSheet(
 }
 
 @Composable
-fun CompleteVideoPlayer(
+fun OnlyVideoPlayer(
+	modifier: Modifier = Modifier,
 	onVideoClick: () -> Unit,
 	onSubtitleButtonClick: () -> Unit,
 	videoDetails: VideoDetails,
@@ -271,8 +273,7 @@ fun CompleteVideoPlayer(
 	ConstraintLayout {
 		val (muteUnMuteIcon, subtitleIcon, videoPlayer) = createRefs()
 		VideoPlayer(
-			modifier = Modifier
-				.height(200.dp)
+			modifier = modifier
 				.padding(8.dp)
 				.constrainAs(videoPlayer) { top.linkTo(parent.top) }
 				.clickable { onVideoClick() },
