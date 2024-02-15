@@ -29,6 +29,17 @@ android {
 				getDefaultProguardFile("proguard-android-optimize.txt"),
 				"proguard-rules.pro"
 			)
+			//This will help in providing custom name to the App, based on the build variant
+			resValue("string", "app_name", "Youtube Release")
+		}
+		debug {
+			isMinifyEnabled = false
+			proguardFiles(
+				getDefaultProguardFile("proguard-android-optimize.txt"),
+				"proguard-rules.pro"
+			)
+			//This will help in providing custom name to the App, based on the build variant
+			resValue("string", "app_name", "Youtube Debug")
 		}
 	}
 	compileOptions {
